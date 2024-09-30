@@ -17,7 +17,12 @@ public class Main {
         }
 
         int[][] matrixA = getRandomMatrix(rowsA, colsA);
+        System.out.println("Matrix A:");
+        printMatrix(matrixA);
+
         int[][] matrixB = getRandomMatrix(rowsB, colsB);
+        System.out.println("Matrix B:");
+        printMatrix(matrixB);
 
         int[][] result = new int[0][];
 
@@ -29,11 +34,19 @@ public class Main {
             System.out.println("Error during matrix multiplication: " + e.getMessage());
         }
 
-        int sum = sumOfMaxElementsInColumns(result);
-        System.out.println("Sum of the largest elements of each column: " + sum);
+        try {
+            int sum = sumOfMaxElementsInColumns(result);
+            System.out.println("Sum of the largest elements of each column: " + sum);
+        } catch (IllegalArgumentException e) {
+            System.out.println("Error during calculation of the sum of the largest elements of each column: " + e.getMessage());
+        }
     }
 
     public static int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB) throws IllegalArgumentException {
+        if (isNotRectangularMatrix(matrixA) || isNotRectangularMatrix(matrixB)) {
+            throw new IllegalArgumentException("The matrices must be rectangular.");
+        }
+
         if (matrixA[0].length != matrixB.length) {
             throw new IllegalArgumentException("The number of columns of the matrix A must be equal to the number of rows of the matrix B.");
         }
@@ -65,6 +78,10 @@ public class Main {
     }
 
     public static int sumOfMaxElementsInColumns(int[][] matrix) {
+        if (isNotRectangularMatrix(matrix)) {
+            throw new IllegalArgumentException("The matrix must be rectangular.");
+        }
+
         int cols = matrix[0].length;
         int sum = 0;
 
@@ -108,5 +125,13 @@ public class Main {
             throw new IllegalArgumentException("Only positive numbers are allowed.");
         }
         return param;
+    }
+
+    public static boolean isNotRectangularMatrix(int[][] matrix) {
+        int length = matrix[0].length;
+        for (int[] row : matrix) {
+            if (row.length != length) return true;
+        }
+        return false;
     }
 }
