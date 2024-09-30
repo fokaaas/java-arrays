@@ -32,10 +32,6 @@ public class Main {
             throw new IllegalArgumentException("The number of columns of the matrix A must be equal to the number of rows of the matrix B.");
         }
 
-        if (isNotRectangularMatrix(matrixA) || isNotRectangularMatrix(matrixB)) {
-            throw new IllegalArgumentException("The matrices must be rectangular.");
-        }
-
         int rowsA = matrixA.length;
         int colsA = matrixA[0].length;
         int colsB = matrixB[0].length;
@@ -60,14 +56,6 @@ public class Main {
             }
             System.out.println();
         }
-    }
-
-    public static boolean isNotRectangularMatrix(int[][] matrix) {
-        int length = matrix[0].length;
-        for (int[] row : matrix) {
-            if (row.length != length) return true;
-        }
-        return false;
     }
 
     public static int sumOfMaxElementsInColumns(int[][] matrix) throws IllegalArgumentException {
