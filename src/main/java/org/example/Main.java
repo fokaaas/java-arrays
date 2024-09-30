@@ -1,5 +1,7 @@
 package org.example;
 
+import java.util.Random;
+
 public class Main {
     public static void main(String[] args) {
         int[][] matrix1 = {
@@ -58,7 +60,7 @@ public class Main {
         }
     }
 
-    public static int sumOfMaxElementsInColumns(int[][] matrix) throws IllegalArgumentException {
+    public static int sumOfMaxElementsInColumns(int[][] matrix) {
         int cols = matrix[0].length;
         int sum = 0;
 
@@ -72,5 +74,20 @@ public class Main {
             sum += max;
         }
         return sum;
+    }
+
+    public static int[][] generateMatrix(int rows, int cols) {
+        Random random = new Random();
+        int[][] matrix = new int[rows][cols];
+        final int minValue = -20;
+        final int maxValue = 20;
+
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                matrix[i][j] = random.nextInt(maxValue - minValue + 1) + minValue;
+            }
+        }
+
+        return matrix;
     }
 }
