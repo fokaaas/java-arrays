@@ -17,18 +17,18 @@ public class Main {
         }
 
         int[][] matrixA = getRandomMatrix(rowsA, colsA);
-        System.out.println("Matrix A:");
+        System.out.println("\nMatrix A:");
         printMatrix(matrixA);
 
         int[][] matrixB = getRandomMatrix(rowsB, colsB);
-        System.out.println("Matrix B:");
+        System.out.println("\nMatrix B:");
         printMatrix(matrixB);
 
         int[][] result = new int[0][];
 
         try {
             result = multiplyMatrices(matrixA, matrixB);
-            System.out.println("Result of matrix multiplication:");
+            System.out.println("\nResult of matrix multiplication:");
             printMatrix(result);
         } catch (IllegalArgumentException e) {
             System.out.println("Error during matrix multiplication: " + e.getMessage());
@@ -36,7 +36,7 @@ public class Main {
 
         try {
             int sum = sumOfMaxElementsInColumns(result);
-            System.out.println("Sum of the largest elements of each column: " + sum);
+            System.out.println("\nSum of the largest elements of each column: " + sum);
         } catch (IllegalArgumentException e) {
             System.out.println("Error during calculation of the sum of the largest elements of each column: " + e.getMessage());
         }
