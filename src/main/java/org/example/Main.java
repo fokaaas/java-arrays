@@ -1,24 +1,28 @@
 package org.example;
 
 import java.util.Random;
+import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int[][] matrix1 = {
-                {1, 2, 3},
-                {4, 5, 6}
-        };
+        int rowsA, colsA, rowsB, colsB;
 
-        int[][] matrix2 = {
-                {7, 8},
-                {9, 10},
-                {11, 12}
-        };
+        try {
+            rowsA = getParam("Enter the number of rows for matrix A: ");
+            colsA = getParam("Enter the number of columns for matrix A: ");
+            rowsB = getParam("Enter the number of rows for matrix B: ");
+            colsB = getParam("Enter the number of columns for matrix B: ");
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException("Error during console input: " + e.getMessage());
+        }
+
+        int[][] matrixA = getRandomMatrix(rowsA, colsA);
+        int[][] matrixB = getRandomMatrix(rowsB, colsB);
 
         int[][] result = new int[0][];
 
         try {
-            result = multiplyMatrices(matrix1, matrix2);
+            result = multiplyMatrices(matrixA, matrixB);
             System.out.println("Result of matrix multiplication:");
             printMatrix(result);
         } catch (IllegalArgumentException e) {
@@ -76,7 +80,7 @@ public class Main {
         return sum;
     }
 
-    public static int[][] generateMatrix(int rows, int cols) {
+    public static int[][] getRandomMatrix(int rows, int cols) {
         Random random = new Random();
         int[][] matrix = new int[rows][cols];
         final int minValue = -20;
@@ -89,5 +93,20 @@ public class Main {
         }
 
         return matrix;
+    }
+
+    public static int getParam(String message) throws IllegalArgumentException {
+        Scanner scanner = new Scanner(System.in);
+        System.out.printf(message);
+        if (!scanner.hasNextInt()) {
+            scanner.close();
+            throw new IllegalArgumentException("Only number types are allowed.");
+        }
+        int param = scanner.nextInt();
+        if (param <= 0) {
+            scanner.close();
+            throw new IllegalArgumentException("Only positive numbers are allowed.");
+        }
+        return param;
     }
 }
