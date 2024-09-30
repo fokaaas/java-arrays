@@ -41,6 +41,14 @@ public class Main {
     }
 
     public static short[][] addMatrices(short[][] matrixA, short[][] matrixB) throws IllegalArgumentException {
+        if (isNotRectangularMatrix(matrixA) || isNotRectangularMatrix(matrixB)) {
+            throw new IllegalArgumentException("The matrices must be rectangular.");
+        }
+
+        if (!haveSameDimensions(matrixA, matrixB)) {
+            throw new IllegalArgumentException("The matrices must have the same dimensions.");
+        }
+
         int rows = matrixA.length;
         int cols = matrixA[0].length;
 
@@ -120,5 +128,9 @@ public class Main {
             if (row.length != length) return true;
         }
         return false;
+    }
+
+    public static boolean haveSameDimensions(short[][] matrix1, short[][] matrix2) {
+        return (matrix1.length == matrix2.length) && (matrix1[0].length == matrix2[0].length);
     }
 }
