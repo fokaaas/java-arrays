@@ -5,33 +5,31 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        int rowsA, colsA, rowsB, colsB;
+        int rows, cols;
 
         try {
-            rowsA = getParam("Enter the number of rows for matrix A: ");
-            colsA = getParam("Enter the number of columns for matrix A: ");
-            rowsB = getParam("Enter the number of rows for matrix B: ");
-            colsB = getParam("Enter the number of columns for matrix B: ");
+            rows = getParam("Enter the number of rows for matrices: ");
+            cols = getParam("Enter the number of columns for matrices: ");
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Error during console input: " + e.getMessage());
         }
 
-        int[][] matrixA = getRandomMatrix(rowsA, colsA);
+        short[][] matrixA = getRandomMatrix(rows, cols);
         System.out.println("\nMatrix A:");
         printMatrix(matrixA);
 
-        int[][] matrixB = getRandomMatrix(rowsB, colsB);
+        short[][] matrixB = getRandomMatrix(rows, cols);
         System.out.println("\nMatrix B:");
         printMatrix(matrixB);
 
-        int[][] result = new int[0][];
+        short[][] result = new short[rows][cols];
 
         try {
-            result = multiplyMatrices(matrixA, matrixB);
-            System.out.println("\nResult of matrix multiplication:");
+            result = addMatrices(matrixA, matrixB);
+            System.out.println("\nResult of matrix addition:");
             printMatrix(result);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error during matrix multiplication: " + e.getMessage());
+            System.out.println("Error during matrix addition: " + e.getMessage());
         }
 
         try {
@@ -42,42 +40,31 @@ public class Main {
         }
     }
 
-    public static int[][] multiplyMatrices(int[][] matrixA, int[][] matrixB) throws IllegalArgumentException {
-        if (isNotRectangularMatrix(matrixA) || isNotRectangularMatrix(matrixB)) {
-            throw new IllegalArgumentException("The matrices must be rectangular.");
-        }
+    public static short[][] addMatrices(short[][] matrixA, short[][] matrixB) throws IllegalArgumentException {
+        int rows = matrixA.length;
+        int cols = matrixA[0].length;
 
-        if (matrixA[0].length != matrixB.length) {
-            throw new IllegalArgumentException("The number of columns of the matrix A must be equal to the number of rows of the matrix B.");
-        }
+        short[][] result = new short[rows][cols];
 
-        int rowsA = matrixA.length;
-        int colsA = matrixA[0].length;
-        int colsB = matrixB[0].length;
-
-        int[][] result = new int[rowsA][colsB];
-
-        for (int i = 0; i < rowsA; i++) {
-            for (int j = 0; j < colsB; j++) {
-                for (int k = 0; k < colsA; k++) {
-                    result[i][j] += matrixA[i][k] * matrixB[k][j];
-                }
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                result[i][j] = (short) (matrixA[i][j] + matrixB[i][j]);
             }
         }
 
         return result;
     }
 
-    public static void printMatrix(int[][] matrix) {
-        for (int[] row : matrix) {
-            for (int element : row) {
+    public static void printMatrix(short[][] matrix) {
+        for (short[] row : matrix) {
+            for (short element : row) {
                 System.out.print(element + " ");
             }
             System.out.println();
         }
     }
 
-    public static int sumOfMaxElementsInColumns(int[][] matrix) {
+    public static int sumOfMaxElementsInColumns(short[][] matrix) {
         if (isNotRectangularMatrix(matrix)) {
             throw new IllegalArgumentException("The matrix must be rectangular.");
         }
@@ -87,9 +74,9 @@ public class Main {
 
         for (int j = 0; j < cols; j++) {
             int max = Integer.MIN_VALUE;
-            for (int[] ints : matrix) {
-                if (ints[j] > max) {
-                    max = ints[j];
+            for (short[] shorts : matrix) {
+                if (shorts[j] > max) {
+                    max = shorts[j];
                 }
             }
             sum += max;
@@ -97,15 +84,15 @@ public class Main {
         return sum;
     }
 
-    public static int[][] getRandomMatrix(int rows, int cols) {
+    public static short[][] getRandomMatrix(int rows, int cols) {
         Random random = new Random();
-        int[][] matrix = new int[rows][cols];
+        short[][] matrix = new short[rows][cols];
         final int minValue = -20;
         final int maxValue = 20;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
-                matrix[i][j] = random.nextInt(maxValue - minValue + 1) + minValue;
+                matrix[i][j] = (short) (random.nextInt(maxValue - minValue + 1) + minValue);
             }
         }
 
@@ -127,9 +114,9 @@ public class Main {
         return param;
     }
 
-    public static boolean isNotRectangularMatrix(int[][] matrix) {
+    public static boolean isNotRectangularMatrix(short[][] matrix) {
         int length = matrix[0].length;
-        for (int[] row : matrix) {
+        for (short[] row : matrix) {
             if (row.length != length) return true;
         }
         return false;
