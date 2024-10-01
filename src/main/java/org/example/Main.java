@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
+        short[][] result;
         int rows, cols;
 
         try {
@@ -22,21 +23,19 @@ public class Main {
         System.out.println("\nMatrix B:");
         printMatrix(matrixB);
 
-        short[][] result = new short[rows][cols];
-
         try {
             result = addMatrices(matrixA, matrixB);
             System.out.println("\nResult of matrix addition:");
             printMatrix(result);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error during matrix addition: " + e.getMessage());
+            throw new RuntimeException("Error during matrix addition: " + e.getMessage());
         }
 
         try {
             int sum = sumOfMaxElementsInColumns(result);
             System.out.println("\nSum of the largest elements of each column: " + sum);
         } catch (IllegalArgumentException e) {
-            System.out.println("Error during calculation of the sum of the largest elements of each column: " + e.getMessage());
+            throw new RuntimeException("Error during calculation of the sum of the largest elements of each column: " + e.getMessage());
         }
     }
 
